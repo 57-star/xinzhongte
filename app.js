@@ -4,6 +4,7 @@ const state = {
   score: { answered: 0, correct: 0 },
   current: null,
   selected: new Set(),
+  autoNextTimer: null,
   wrong: new Set(JSON.parse(localStorage.getItem("xztk_wrong") || "[]")),
 };
 
@@ -158,6 +159,7 @@ function toggleOption(q, row) {
 }
 
 function submitAnswer(q, card) {
+  if (!state.selected.size) return;
   const correct = sameSet(state.selected, answerSet(q));
   state.score.answered += 1;
   if (correct) {
@@ -169,6 +171,9 @@ function submitAnswer(q, card) {
   saveWrong();
   reveal(card, q, true);
   renderScore();
+  card.querySelector(".answer").insertAdjacentHTML("beforeend", "｜1.2 秒后自动下一题");
+  clearTimeout(state.autoNextTimer);
+  state.autoNextTimer = setTimeout(nextQuestion, 1200);
 }
 
 function sameSet(a, b) {
@@ -187,6 +192,7 @@ function reveal(card, q, markWrong) {
 }
 
 function nextQuestion() {
+  clearTimeout(state.autoNextTimer);
   state.selected = new Set();
   const pool = filteredQuestions();
   state.current = pool[Math.floor(Math.random() * pool.length)] || questions[0];
