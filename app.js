@@ -160,6 +160,9 @@ function toggleOption(q, row) {
 
 function submitAnswer(q, card) {
   if (!state.selected.size) return;
+  const submitButton = card.querySelector("#submitAnswer");
+  if (submitButton.disabled) return;
+  submitButton.disabled = true;
   const correct = sameSet(state.selected, answerSet(q));
   state.score.answered += 1;
   if (correct) {
@@ -171,9 +174,9 @@ function submitAnswer(q, card) {
   saveWrong();
   reveal(card, q, true);
   renderScore();
-  card.querySelector(".answer").insertAdjacentHTML("beforeend", "｜1.2 秒后自动下一题");
+  card.querySelector(".answer").insertAdjacentHTML("beforeend", "｜正在切换下一题...");
   clearTimeout(state.autoNextTimer);
-  state.autoNextTimer = setTimeout(nextQuestion, 1200);
+  state.autoNextTimer = setTimeout(nextQuestion, 900);
 }
 
 function sameSet(a, b) {
