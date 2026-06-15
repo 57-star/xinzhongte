@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>新中特选择题刷题</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>新中特选择题刷题</h1>
+      <p id="summary">正在加载题库...</p>
+    </div>
+    <nav class="tabs" aria-label="功能">
+      <button class="tab active" data-view="bank" type="button">所有题库</button>
+      <button class="tab" data-view="quiz" type="button">随机出题</button>
+      <button class="tab" data-view="wrong" type="button">错题回看</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="bankView" class="view">
+      <div class="toolbar">
+        <input id="search" placeholder="搜索题干、选项、答案、来源" autocomplete="off">
+        <select id="typeFilter" aria-label="题型">
+          <option value="">全部题型</option>
+          <option value="single">单选</option>
+          <option value="multiple">多选</option>
+          <option value="judgment">判断/回忆</option>
+        </select>
+        <select id="sourceFilter" aria-label="来源">
+          <option value="">全部来源</option>
+        </select>
+        <button class="secondary" id="clearSearch" type="button">清空</button>
+      </div>
+      <p class="count" id="bankCount"></p>
+      <div id="bankList" class="list"></div>
+    </section>
+
+    <section id="quizView" class="view hidden">
+      <div class="quiz-head">
+        <p class="count" id="score">已答 0 题，正确 0 题</p>
+        <button id="nextQuestion" type="button">换一题</button>
+      </div>
+      <div id="quizCard"></div>
+    </section>
+
+    <section id="wrongView" class="view hidden">
+      <div class="toolbar">
+        <button class="secondary" id="clearWrong" type="button">清空错题</button>
+      </div>
+      <p class="count" id="wrongCount"></p>
+      <div id="wrongList" class="list"></div>
+    </section>
+  </main>
+
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
