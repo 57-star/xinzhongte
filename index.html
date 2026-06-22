@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>新中特选择题刷题</title>
-  <link rel="stylesheet" href="./styles.css?v=20260617-1">
+  <link rel="stylesheet" href="./styles.css?v=20260622-1">
 </head>
 <body>
   <header class="topbar">
@@ -15,6 +15,7 @@
     <nav class="tabs" aria-label="功能">
       <button class="tab active" data-view="bank" type="button">所有题库</button>
       <button class="tab" data-view="quiz" type="button">随机出题</button>
+      <button class="tab" data-view="short" type="button">简答题</button>
       <button class="tab" data-view="wrong" type="button">错题回看</button>
     </nav>
   </header>
@@ -53,9 +54,23 @@
       <p class="count" id="wrongCount"></p>
       <div id="wrongList" class="list"></div>
     </section>
+
+    <section id="shortView" class="view hidden">
+      <div class="toolbar">
+        <input id="shortSearch" placeholder="搜索简答题题目、答案、章节" autocomplete="off">
+        <select id="chapterFilter" aria-label="章节">
+          <option value="">全部章节</option>
+        </select>
+        <button class="secondary" id="clearShortSearch" type="button">清空</button>
+        <button id="randomShort" type="button">随机一题</button>
+      </div>
+      <p class="count" id="shortCount"></p>
+      <div id="shortList" class="list"></div>
+    </section>
   </main>
 
   <script src="./data.js?v=20260617-1"></script>
-  <script src="./app.js?v=20260617-1"></script>
+  <script src="./shorts.js?v=20260622-1"></script>
+  <script src="./app.js?v=20260622-1"></script>
 </body>
 </html>

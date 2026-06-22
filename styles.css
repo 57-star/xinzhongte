@@ -196,6 +196,16 @@ select {
   font-weight: 650;
 }
 
+.short-answer {
+  white-space: pre-line;
+  color: var(--text);
+  font-weight: 400;
+}
+
+.short-card .stem {
+  margin-bottom: 10px;
+}
+
 .card-actions {
   display: flex;
   gap: 8px;

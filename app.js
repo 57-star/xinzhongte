@@ -1,4 +1,5 @@
 const questions = window.QUESTION_BANK || [];
+const shortBank = window.SHORT_ANSWER_BANK || { chapters: [], items: [] };
 const state = {
   view: "bank",
   score: { answered: 0, correct: 0 },
@@ -14,6 +15,7 @@ const els = {
   views: {
     bank: document.querySelector("#bankView"),
     quiz: document.querySelector("#quizView"),
+    short: document.querySelector("#shortView"),
     wrong: document.querySelector("#wrongView"),
   },
   search: document.querySelector("#search"),
@@ -28,6 +30,12 @@ const els = {
   wrongCount: document.querySelector("#wrongCount"),
   wrongList: document.querySelector("#wrongList"),
   clearWrong: document.querySelector("#clearWrong"),
+  shortSearch: document.querySelector("#shortSearch"),
+  chapterFilter: document.querySelector("#chapterFilter"),
+  clearShortSearch: document.querySelector("#clearShortSearch"),
+  randomShort: document.querySelector("#randomShort"),
+  shortCount: document.querySelector("#shortCount"),
+  shortList: document.querySelector("#shortList"),
 };
 
 const typeName = { single: "单选", multiple: "多选", judgment: "判断" };
@@ -57,7 +65,7 @@ function renderSummary() {
   const singles = questions.filter((q) => q.type === "single").length;
   const multiples = questions.filter((q) => q.type === "multiple").length;
   const judgments = questions.filter((q) => q.type === "judgment").length;
-  els.summary.textContent = `共 ${questions.length} 题：单选 ${singles}，多选 ${multiples}，判断/回忆 ${judgments}`;
+  els.summary.textContent = `选择题 ${questions.length} 题：单选 ${singles}，多选 ${multiples}，判断/回忆 ${judgments}；简答题 ${shortBank.items.length} 题`;
 }
 
 function initSourceFilter() {
@@ -70,11 +78,21 @@ function initSourceFilter() {
   }
 }
 
+function initChapterFilter() {
+  for (const chapter of shortBank.chapters) {
+    const option = document.createElement("option");
+    option.value = chapter.id;
+    option.textContent = `${chapter.title}（${chapter.items.length}）`;
+    els.chapterFilter.appendChild(option);
+  }
+}
+
 function switchView(view) {
   state.view = view;
   for (const tab of els.tabs) tab.classList.toggle("active", tab.dataset.view === view);
   for (const [name, el] of Object.entries(els.views)) el.classList.toggle("hidden", name !== view);
   if (view === "quiz" && !state.current) nextQuestion();
+  if (view === "short") renderShorts();
   if (view === "wrong") renderWrong();
 }
 
@@ -214,6 +232,56 @@ function renderWrong() {
   for (const q of wrong) els.wrongList.appendChild(renderCard(q, { mode: "wrong" }));
 }
 
+function filteredShorts() {
+  const keyword = els.shortSearch.value.trim().toLowerCase();
+  const chapter = els.chapterFilter.value;
+  return shortBank.items.filter((item) => {
+    if (chapter && item.chapter_id !== chapter) return false;
+    if (!keyword) return true;
+    const haystack = [item.chapter, item.stem, item.answer].join(" ").toLowerCase();
+    return haystack.includes(keyword);
+  });
+}
+
+function renderShorts(list = filteredShorts()) {
+  els.shortCount.textContent = `显示 ${list.length} / ${shortBank.items.length} 题`;
+  els.shortList.innerHTML = "";
+  for (const item of list) {
+    els.shortList.appendChild(renderShortCard(item));
+  }
+}
+
+function renderShortCard(item) {
+  const card = document.createElement("article");
+  card.className = "card short-card";
+  card.innerHTML = `
+    <p class="meta">
+      <span class="badge">简答</span>
+      <span>${item.id}</span>
+      <span>${item.chapter}</span>
+    </p>
+    <p class="stem">${item.stem}</p>
+    <div class="card-actions">
+      <button type="button" class="toggle-answer">显示答案</button>
+    </div>
+    <div class="answer short-answer hidden">${item.answer}</div>
+  `;
+  const button = card.querySelector(".toggle-answer");
+  const answer = card.querySelector(".short-answer");
+  button.addEventListener("click", () => {
+    const isHidden = answer.classList.toggle("hidden");
+    button.textContent = isHidden ? "显示答案" : "隐藏答案";
+  });
+  return card;
+}
+
+function randomShort() {
+  const list = filteredShorts();
+  if (!list.length) return;
+  const item = list[Math.floor(Math.random() * list.length)];
+  renderShorts([item]);
+}
+
 els.tabs.forEach((tab) => tab.addEventListener("click", () => switchView(tab.dataset.view)));
 [els.search, els.typeFilter, els.sourceFilter].forEach((el) => el.addEventListener("input", renderBank));
 els.clearSearch.addEventListener("click", () => {
@@ -228,8 +296,18 @@ els.clearWrong.addEventListener("click", () => {
   saveWrong();
   renderWrong();
 });
+els.shortSearch.addEventListener("input", () => renderShorts());
+els.chapterFilter.addEventListener("input", () => renderShorts());
+els.clearShortSearch.addEventListener("click", () => {
+  els.shortSearch.value = "";
+  els.chapterFilter.value = "";
+  renderShorts();
+});
+els.randomShort.addEventListener("click", randomShort);
 
 renderSummary();
 initSourceFilter();
+initChapterFilter();
 renderBank();
+renderShorts();
 renderScore();
