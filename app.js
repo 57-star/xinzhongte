@@ -6,6 +6,7 @@ const state = {
   current: null,
   selected: new Set(),
   autoNextTimer: null,
+  quizQueue: [],
   wrong: new Set(JSON.parse(localStorage.getItem("xztk_wrong") || "[]")),
 };
 
@@ -115,6 +116,15 @@ function filteredQuestions() {
   });
 }
 
+function shuffledSingles() {
+  const pool = questions.filter((q) => q.type === "single");
+  for (let i = pool.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool;
+}
+
 function renderBank() {
   const list = filteredQuestions();
   els.bankCount.textContent = `显示 ${list.length} / ${questions.length} 题`;
@@ -215,14 +225,15 @@ function reveal(card, q, markWrong) {
 function nextQuestion() {
   clearTimeout(state.autoNextTimer);
   state.selected = new Set();
-  const pool = filteredQuestions();
-  state.current = pool[Math.floor(Math.random() * pool.length)] || questions[0];
+  if (!state.quizQueue.length) state.quizQueue = shuffledSingles();
+  state.current = state.quizQueue.shift();
   els.quizCard.innerHTML = "";
   els.quizCard.appendChild(renderCard(state.current, { mode: "quiz" }));
+  renderScore();
 }
 
 function renderScore() {
-  els.score.textContent = `已答 ${state.score.answered} 题，正确 ${state.score.correct} 题`;
+  els.score.textContent = `已答 ${state.score.answered} 题，正确 ${state.score.correct} 题，本轮剩余 ${state.quizQueue.length} 题`;
 }
 
 function renderWrong() {

@@ -1711,7 +1711,7 @@ window.QUESTION_BANK = [
         "text": "全面建设社会主义现代化国家"
       }
     ],
-    "answer": "A",
+    "answer": "C",
     "answer_source": "课程内容推定",
     "sources": [
       "选择题模拟卷"
@@ -1795,8 +1795,8 @@ window.QUESTION_BANK = [
         "text": "尊老、爱幼、勤俭、节约"
       }
     ],
-    "answer": "D",
-    "answer_source": "课程内容推定",
+    "answer": "C",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -1823,8 +1823,8 @@ window.QUESTION_BANK = [
         "text": "增进民生福祉"
       }
     ],
-    "answer": "C",
-    "answer_source": "课程内容推定",
+    "answer": "D",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -1852,7 +1852,7 @@ window.QUESTION_BANK = [
       }
     ],
     "answer": "B",
-    "answer_source": "课程内容推定",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -1880,7 +1880,7 @@ window.QUESTION_BANK = [
       }
     ],
     "answer": "C",
-    "answer_source": "课程内容推定",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -1907,8 +1907,8 @@ window.QUESTION_BANK = [
         "text": "2035； 2060"
       }
     ],
-    "answer": "A",
-    "answer_source": "课程内容推定",
+    "answer": "C",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -1936,7 +1936,7 @@ window.QUESTION_BANK = [
       }
     ],
     "answer": "C",
-    "answer_source": "课程内容推定",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -1963,8 +1963,8 @@ window.QUESTION_BANK = [
         "text": "和平统一"
       }
     ],
-    "answer": "C",
-    "answer_source": "课程内容推定",
+    "answer": "B",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -1991,8 +1991,8 @@ window.QUESTION_BANK = [
         "text": "相互尊重、合作共赢"
       }
     ],
-    "answer": "D",
-    "answer_source": "课程内容推定",
+    "answer": "A",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -2019,8 +2019,8 @@ window.QUESTION_BANK = [
         "text": "互利共赢"
       }
     ],
-    "answer": "D",
-    "answer_source": "课程内容推定",
+    "answer": "C",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -2047,8 +2047,8 @@ window.QUESTION_BANK = [
         "text": "中国共产党领导"
       }
     ],
-    "answer": "A",
-    "answer_source": "课程内容推定",
+    "answer": "D",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -2076,7 +2076,7 @@ window.QUESTION_BANK = [
       }
     ],
     "answer": "B",
-    "answer_source": "课程内容推定",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -2104,7 +2104,7 @@ window.QUESTION_BANK = [
       }
     ],
     "answer": "C",
-    "answer_source": "课程内容推定",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -2131,8 +2131,8 @@ window.QUESTION_BANK = [
         "text": "基本实现共同富裕"
       }
     ],
-    "answer": "D",
-    "answer_source": "课程内容推定",
+    "answer": "C",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
@@ -2160,7 +2160,7 @@ window.QUESTION_BANK = [
       }
     ],
     "answer": "B",
-    "answer_source": "课程内容推定",
+    "answer_source": "人工校正",
     "sources": [
       "选择题模拟卷"
     ]
