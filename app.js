@@ -7,6 +7,8 @@ const state = {
   selected: new Set(),
   autoNextTimer: null,
   quizQueue: [],
+  shortQueue: [],
+  shortQueueKey: "",
   wrong: new Set(JSON.parse(localStorage.getItem("xztk_wrong") || "[]")),
 };
 
@@ -254,8 +256,27 @@ function filteredShorts() {
   });
 }
 
+function shortFilterKey() {
+  return `${els.chapterFilter.value}::${els.shortSearch.value.trim().toLowerCase()}`;
+}
+
+function shuffledShorts() {
+  const pool = [...filteredShorts()];
+  for (let i = pool.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool;
+}
+
+function resetShortQueue() {
+  state.shortQueue = [];
+  state.shortQueueKey = shortFilterKey();
+}
+
 function renderShorts(list = filteredShorts()) {
-  els.shortCount.textContent = `显示 ${list.length} / ${shortBank.items.length} 题`;
+  const rest = state.shortQueue.length ? `，随机剩余 ${state.shortQueue.length} 题` : "";
+  els.shortCount.textContent = `显示 ${list.length} / ${shortBank.items.length} 题${rest}`;
   els.shortList.innerHTML = "";
   for (const item of list) {
     els.shortList.appendChild(renderShortCard(item));
@@ -287,9 +308,13 @@ function renderShortCard(item) {
 }
 
 function randomShort() {
-  const list = filteredShorts();
-  if (!list.length) return;
-  const item = list[Math.floor(Math.random() * list.length)];
+  const key = shortFilterKey();
+  if (state.shortQueueKey !== key || !state.shortQueue.length) {
+    state.shortQueueKey = key;
+    state.shortQueue = shuffledShorts();
+  }
+  if (!state.shortQueue.length) return;
+  const item = state.shortQueue.shift();
   renderShorts([item]);
 }
 
@@ -307,11 +332,18 @@ els.clearWrong.addEventListener("click", () => {
   saveWrong();
   renderWrong();
 });
-els.shortSearch.addEventListener("input", () => renderShorts());
-els.chapterFilter.addEventListener("input", () => renderShorts());
+els.shortSearch.addEventListener("input", () => {
+  resetShortQueue();
+  renderShorts();
+});
+els.chapterFilter.addEventListener("input", () => {
+  resetShortQueue();
+  renderShorts();
+});
 els.clearShortSearch.addEventListener("click", () => {
   els.shortSearch.value = "";
   els.chapterFilter.value = "";
+  resetShortQueue();
   renderShorts();
 });
 els.randomShort.addEventListener("click", randomShort);
